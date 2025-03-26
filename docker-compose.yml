@@ -1,0 +1,7 @@
+version: "3"
+services:
+  flask-chat:
+    image: us-central1-docker.pkg.dev/software-da/flask-chat-repo/flask-chat-app:v2
+    ports:
+      - "9090:5000"
+    restart: always

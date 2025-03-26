@@ -1,0 +1,140 @@
+/* General Layout */
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: linear-gradient(to right, #4facfe, #00f2fe);
+  font-family: "Poppins", sans-serif;
+}
+
+/* Home Page Buttons */
+.buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.join {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.create-btn {
+  width: 100%;
+  background: #007bff;
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+  border: none;
+}
+
+.create-btn:hover {
+  background: #0056b3;
+}
+
+/* Chat Room Box */
+.message-box {
+  border: none;
+  border-radius: 12px;
+  background: white;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  width: 80vw;
+  align-items: stretch;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+  padding: 15px;
+}
+
+h2 {
+  text-align: center;
+  color: #333;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+/* Messages Section */
+.messages {
+  overflow-y: scroll;
+  flex: 1;
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Chat Messages */
+.text {
+  padding: 12px;
+  border-radius: 8px;
+  width: fit-content;
+  max-width: 60%;
+  word-wrap: break-word;
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Alternating Message Bubbles */
+.text:nth-child(even) {
+  background: #007bff;
+  color: white;
+  align-self: flex-start;
+}
+
+.text:nth-child(odd) {
+  background: #f1f1f1;
+  color: black;
+  align-self: flex-end;
+}
+
+/* Muted Timestamp */
+.muted {
+  font-size: 10px;
+  color: darkgray;
+  text-align: right;
+  display: block;
+  margin-top: 5px;
+}
+
+/* Input Section */
+.inputs {
+  display: flex;
+  padding: 10px;
+  background: #f8f9fa;
+  border-top: 1px solid #ddd;
+  border-radius: 0px 0px 12px 12px;
+}
+
+#message {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  font-size: 16px;
+}
+
+#send-btn {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  margin-left: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#send-btn:hover {
+  background: #0056b3;
+}
