@@ -34,4 +34,4 @@
   
   to open the Flask app:
   run python main.py in the terminal for local testing
-  or use docker compose up if running it with Docker Compose
+  or use docker compose up if running it with Docker (first build it)
