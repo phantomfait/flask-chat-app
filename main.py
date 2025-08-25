@@ -21,10 +21,6 @@ def generate_unique_code(length):
     return code
 
 def query_llama(prompt: str) -> str:
-    """
-    Calls Ollama with Llama3.2 to generate a response.
-    Assumes `ollama` CLI is installed and working on your Mac.
-    """
     try:
         # Run Ollama process
         result = subprocess.run(
@@ -85,7 +81,6 @@ def message(data):
     rooms[room]["messages"].append(content)
     print(f"{session.get('name')} said: {user_message}")
 
-    # Check if the message is for Llama
     if user_message.lower().startswith("hey llama"):
         prompt = user_message[len("hey llama"):].strip()
         llama_response = query_llama(prompt)
@@ -129,4 +124,5 @@ def disconnect():
 
 if __name__ == "__main__":
     socketio.run(app, host="0.0.0.0", port=5000, debug=True)
+
 
