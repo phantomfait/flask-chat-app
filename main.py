@@ -1,29 +1,40 @@
 #22BCE0341 Debangajyoti Das 
+#22BCE0341 Debangajyoti Das 
 from flask import Flask, render_template, request, session, redirect, url_for
 from flask_socketio import join_room, leave_room, send, SocketIO
 import random
 from string import ascii_uppercase
-
-
+import subprocess
+import json
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "hjhjsdahhds"
 socketio = SocketIO(app)
 print(f"Using async mode: {socketio.async_mode}")
 
-
 rooms = {}
 
 def generate_unique_code(length):
     while True:
-        code = ""
-        for _ in range(length):
-            code += random.choice(ascii_uppercase)
-        
+        code = "".join(random.choice(ascii_uppercase) for _ in range(length))
         if code not in rooms:
             break
-    
     return code
+
+def query_llama(prompt: str) -> str:
+    """
+    Calls Ollama with Llama3.2 to generate a response.
+    Assumes `ollama` CLI is installed and working on your Mac.
+    """
+    try:
+        # Run Ollama process
+        result = subprocess.run(
+            ["ollama", "run", "llama3.2", prompt],
+            capture_output=True, text=True, check=True
+        )
+        return result.stdout.strip()
+    except Exception as e:
+        return f"(Error contacting Llama: {e})"
 
 @app.route("/", methods=["POST", "GET"])
 def home():
@@ -58,7 +69,6 @@ def room():
     room = session.get("room")
     if room is None or session.get("name") is None or room not in rooms:
         return redirect(url_for("home"))
-
     return render_template("room.html", code=room, messages=rooms[room]["messages"])
 
 @socketio.on("message")
@@ -67,13 +77,27 @@ def message(data):
     if room not in rooms:
         return 
     
+    user_message = data["data"]
     content = {
         "name": session.get("name"),
-        "message": data["data"]
+        "message": user_message
     }
     send(content, to=room)
     rooms[room]["messages"].append(content)
-    print(f"{session.get('name')} said: {data['data']}")
+    print(f"{session.get('name')} said: {user_message}")
+
+    # Check if the message is for Llama
+    if user_message.lower().startswith("hey llama"):
+        prompt = user_message[len("hey llama"):].strip()
+        llama_response = query_llama(prompt)
+
+        ai_content = {
+            "name": "Llama 3.2",
+            "message": llama_response
+        }
+        send(ai_content, to=room)
+        rooms[room]["messages"].append(ai_content)
+        print(f"Llama replied: {llama_response}")
 
 @socketio.on("connect")
 def connect(auth):
